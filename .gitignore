@@ -1,0 +1,3 @@
+module-02-security/kubeconfig/*.kubeconfig
+.idea/
+CLAUDE.md
