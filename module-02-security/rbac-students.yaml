@@ -1,0 +1,69 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: student01-rw
+  namespace: student01
+subjects:
+  - kind: ServiceAccount
+    name: student01
+    namespace: student01
+roleRef:
+  kind: ClusterRole
+  name: ns-read-write
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: student02-rw
+  namespace: student02
+subjects:
+  - kind: ServiceAccount
+    name: student02
+    namespace: student02
+roleRef:
+  kind: ClusterRole
+  name: ns-read-write
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: student02-ro
+  namespace: student01
+subjects:
+  - kind: ServiceAccount
+    name: student02
+    namespace: student02
+roleRef:
+  kind: ClusterRole
+  name: ns-read-only
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: student02-ro
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: student02
+    namespace: student02
+roleRef:
+  kind: ClusterRole
+  name: ns-read-only
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: student03-rw
+  namespace: student03
+subjects:
+  - kind: ServiceAccount
+    name: student03
+    namespace: student03
+roleRef:
+  kind: ClusterRole
+  name: ns-read-write
+  apiGroup: rbac.authorization.k8s.io
