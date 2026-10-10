@@ -1,0 +1,49 @@
+# Namespace that is NOT created by this chart but is granted access to,
+# exactly like `default` in module-02 (pre-existing namespace used as an RO
+# target for student02).
+preExistingNamespaces:
+  - default
+
+# Reusable ClusterRole templates. These grant nothing by themselves — access
+# only exists where a RoleBinding (namespace-scoped, never ClusterRoleBinding)
+# references them.
+clusterRoles:
+  readWrite:
+    name: ns-read-write
+    apiGroups: ["", "apps", "batch", "networking.k8s.io"]
+    resources: ["*"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  readOnly:
+    name: ns-read-only
+    apiGroups: ["", "apps", "batch", "networking.k8s.io"]
+    resources: ["*"]
+    verbs: ["get", "list", "watch"]
+
+# mentor: one ServiceAccount in its own namespace, with RW RoleBindings into
+# every student namespace (populated automatically below unless overridden).
+mentor:
+  namespace: mentor
+  serviceAccount: mentor
+  # Namespaces mentor gets read-write in. Defaults to "all student
+  # namespaces" — see templates/rbac-mentor.yaml.
+  rwNamespaces: []
+
+# One ServiceAccount per student, living in the student's own namespace.
+# access.rw   - list of namespaces this student gets read-write in (their own
+#               namespace is implicit and always included).
+# access.ro   - list of namespaces this student gets read-only in.
+students:
+  - name: student01
+    access:
+      rw: []
+      ro: []
+  - name: student02
+    access:
+      rw: []
+      ro:
+        - student01
+        - default
+  - name: student03
+    access:
+      rw: []
+      ro: []

@@ -1,0 +1,20 @@
+readonlyRootfsAudit:
+  enabled: true
+  policyName: require-readonly-rootfs
+  validationFailureAction: Audit
+  background: true
+
+personLabel:
+  enabled: true
+  policyName: add-person-label
+  labelKey: person
+  mentor:
+    namespaces:
+      - mentor
+    labelValue: mentor
+  students:
+    namespaces:
+      - student01
+      - student02
+      - student03
+    labelValue: student
