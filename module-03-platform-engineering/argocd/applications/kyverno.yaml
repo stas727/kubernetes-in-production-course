@@ -19,6 +19,9 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      # Kyverno's CRDs are large enough that client-side apply's
+      # last-applied-configuration annotation exceeds the 256KB limit.
+      - ServerSideApply=true
     automated:
       prune: true
       selfHeal: true
