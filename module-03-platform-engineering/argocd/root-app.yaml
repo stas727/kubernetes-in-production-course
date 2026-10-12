@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kip-root
+  namespace: argocd
+spec:
+  project: kip
+  source:
+    repoURL: https://github.com/stas727/kubernetes-in-production-course.git
+    targetRevision: module03
+    path: module-03-platform-engineering/argocd/applications
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,53 @@
+{{- $rwRole := .Values.clusterRoles.readWrite.name }}
+{{- $roRole := .Values.clusterRoles.readOnly.name }}
+{{- range .Values.students }}
+{{- $student := .name }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $student }}-rw
+  namespace: {{ $student }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $student }}
+    namespace: {{ $student }}
+roleRef:
+  kind: ClusterRole
+  name: {{ $rwRole }}
+  apiGroup: rbac.authorization.k8s.io
+{{- range .access.rw }}
+{{- if ne . $student }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $student }}-rw
+  namespace: {{ . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $student }}
+    namespace: {{ $student }}
+roleRef:
+  kind: ClusterRole
+  name: {{ $rwRole }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
+{{- end }}
+{{- range .access.ro }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $student }}-ro
+  namespace: {{ . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $student }}
+    namespace: {{ $student }}
+roleRef:
+  kind: ClusterRole
+  name: {{ $roRole }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
+{{- end }}

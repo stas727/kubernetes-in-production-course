@@ -1,0 +1,32 @@
+{{- if .Values.personLabel.enabled }}
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: {{ .Values.personLabel.policyName }}
+spec:
+  rules:
+    - name: label-student-namespaces
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces: {{ .Values.personLabel.students.namespaces | toYaml | nindent 16 }}
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              {{ .Values.personLabel.labelKey }}: {{ .Values.personLabel.students.labelValue }}
+    - name: label-mentor-namespace
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces: {{ .Values.personLabel.mentor.namespaces | toYaml | nindent 16 }}
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              {{ .Values.personLabel.labelKey }}: {{ .Values.personLabel.mentor.labelValue }}
+{{- end }}

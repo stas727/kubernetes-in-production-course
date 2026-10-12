@@ -1,0 +1,8 @@
+apiVersion: v2
+name: kyverno-policies
+description: >-
+  Kyverno ClusterPolicies: readonly-rootfs audit and per-namespace "person"
+  label mutation. Rewritten from module-02-security as a reusable Helm chart.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

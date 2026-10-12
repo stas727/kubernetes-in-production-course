@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.clusterRoles.readWrite.name }}
+rules:
+  - apiGroups: {{ .Values.clusterRoles.readWrite.apiGroups | toYaml | nindent 6 }}
+    resources: {{ .Values.clusterRoles.readWrite.resources | toYaml | nindent 6 }}
+    verbs: {{ .Values.clusterRoles.readWrite.verbs | toYaml | nindent 6 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.clusterRoles.readOnly.name }}
+rules:
+  - apiGroups: {{ .Values.clusterRoles.readOnly.apiGroups | toYaml | nindent 6 }}
+    resources: {{ .Values.clusterRoles.readOnly.resources | toYaml | nindent 6 }}
+    verbs: {{ .Values.clusterRoles.readOnly.verbs | toYaml | nindent 6 }}

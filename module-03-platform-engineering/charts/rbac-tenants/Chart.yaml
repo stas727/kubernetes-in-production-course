@@ -1,0 +1,9 @@
+apiVersion: v2
+name: rbac-tenants
+description: >-
+  Namespaces, ServiceAccounts and RBAC (ClusterRole templates + per-namespace
+  RoleBindings) for mentor/student multi-tenancy on a single cluster.
+  Rewritten from module-02-security as a reusable Helm chart.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

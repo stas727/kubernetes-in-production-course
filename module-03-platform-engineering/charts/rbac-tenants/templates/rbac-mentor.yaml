@@ -1,0 +1,26 @@
+{{- $rwNamespaces := .Values.mentor.rwNamespaces }}
+{{- if not $rwNamespaces }}
+{{- $rwNamespaces = list }}
+{{- range .Values.students }}
+{{- $rwNamespaces = append $rwNamespaces .name }}
+{{- end }}
+{{- end }}
+{{- $mentorSA := .Values.mentor.serviceAccount }}
+{{- $mentorNs := .Values.mentor.namespace }}
+{{- $rwRole := .Values.clusterRoles.readWrite.name }}
+{{- range $rwNamespaces }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mentor-rw
+  namespace: {{ . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $mentorSA }}
+    namespace: {{ $mentorNs }}
+roleRef:
+  kind: ClusterRole
+  name: {{ $rwRole }}
+  apiGroup: rbac.authorization.k8s.io
+---
+{{- end }}

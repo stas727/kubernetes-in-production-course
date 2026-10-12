@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rbac-tenants
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: kip
+  source:
+    repoURL: https://github.com/stas727/kubernetes-in-production-course.git
+    targetRevision: module03
+    path: module-03-platform-engineering/charts/rbac-tenants
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
