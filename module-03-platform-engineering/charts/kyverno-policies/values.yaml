@@ -18,3 +18,11 @@ personLabel:
       - student02
       - student03
     labelValue: student
+
+istioInjectionLabel:
+  enabled: false
+  policyName: inject-istio-sidecar-for-students
+  personLabelKey: person
+  personLabelValue: student
+  injectLabelKey: sidecar.istio.io/inject
+  injectLabelValue: "true"

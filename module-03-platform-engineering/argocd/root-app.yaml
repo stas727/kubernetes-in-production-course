@@ -7,7 +7,7 @@ spec:
   project: kip
   source:
     repoURL: https://github.com/stas727/kubernetes-in-production-course.git
-    targetRevision: module03
+    targetRevision: module04
     path: module-03-platform-engineering/argocd/applications
     directory:
       recurse: false
