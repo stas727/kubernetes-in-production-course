@@ -13,6 +13,10 @@ spec:
     repoURL: https://github.com/stas727/kubernetes-in-production-course.git
     targetRevision: module03
     path: module-03-platform-engineering/charts/kyverno-policies
+    helm:
+      parameters:
+        - name: istioInjectionLabel.enabled
+          value: "true"
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:

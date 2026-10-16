@@ -2,11 +2,19 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ .Values.mentor.namespace }}
+  {{- if and .Values.meshInjection.enabled .Values.meshInjection.mentor }}
+  labels:
+    istio-injection: enabled
+  {{- end }}
 ---
 {{- range .Values.students }}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ .name }}
+  {{- if and $.Values.meshInjection.enabled $.Values.meshInjection.students }}
+  labels:
+    istio-injection: enabled
+  {{- end }}
 ---
 {{- end }}

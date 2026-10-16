@@ -29,4 +29,22 @@ spec:
           metadata:
             labels:
               {{ .Values.personLabel.labelKey }}: {{ .Values.personLabel.mentor.labelValue }}
+    {{- if .Values.istioInjectionLabel.enabled }}
+    - name: {{ .Values.istioInjectionLabel.policyName }}
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      preconditions:
+        all:
+          - key: "{{ `{{ request.object.metadata.labels.` }}{{ .Values.istioInjectionLabel.personLabelKey }}{{ ` || '' }}` }}"
+            operator: Equals
+            value: {{ .Values.istioInjectionLabel.personLabelValue | quote }}
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              {{ .Values.istioInjectionLabel.injectLabelKey }}: {{ .Values.istioInjectionLabel.injectLabelValue | quote }}
+    {{- end }}
 {{- end }}

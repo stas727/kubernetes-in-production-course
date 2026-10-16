@@ -1,3 +1,14 @@
+# Istio sidecar-injection namespace label (module-04-service-mesh). Off by
+# default so this chart stays usable on its own, without Istio installed.
+# Only student namespaces are labeled — mentor pods are never person:student,
+# so there is no pod there that the Kyverno injection rule would ever mark
+# for a sidecar. Not labeling mentor's namespace also means Istio's webhook
+# never looks at it at all, which is the stricter, safer default.
+meshInjection:
+  enabled: false
+  mentor: false
+  students: true
+
 # Namespace that is NOT created by this chart but is granted access to,
 # exactly like `default` in module-02 (pre-existing namespace used as an RO
 # target for student02).
