@@ -21,7 +21,7 @@ spec:
   ignoreDifferences:
     - group: admissionregistration.k8s.io
       kind: ValidatingWebhookConfiguration
-      name: istiod-default-validator
+      name: istio-validator-istio-system
       jsonPointers:
         - /webhooks/0/clientConfig/caBundle
   syncPolicy:
