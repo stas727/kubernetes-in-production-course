@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: readonly-rootfs-audit-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  readonly-rootfs-audit.json: |
+    {
+      "title": "Readonly Rootfs Audit — Policy Violations",
+      "uid": "readonly-rootfs-audit",
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "refresh": "30s",
+      "panels": [
+        {
+          "id": 1,
+          "title": "require-readonly-rootfs violations over time",
+          "type": "timeseries",
+          "gridPos": { "h": 9, "w": 24, "x": 0, "y": 0 },
+          "datasource": { "type": "loki", "uid": "${DS_LOKI}" },
+          "targets": [
+            {
+              "expr": "sum(count_over_time({app_kubernetes_io_component=\"admission-controller\", app_kubernetes_io_part_of=\"kyverno\"} |= \"validation error\" |= \"require-readonly-rootfs\" [1m]))"
+            }
+          ],
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] }
+        },
+        {
+          "id": 2,
+          "title": "Raw matching log lines",
+          "type": "logs",
+          "gridPos": { "h": 12, "w": 24, "x": 0, "y": 9 },
+          "datasource": { "type": "loki", "uid": "${DS_LOKI}" },
+          "targets": [
+            {
+              "expr": "{app_kubernetes_io_component=\"admission-controller\", app_kubernetes_io_part_of=\"kyverno\"} |= \"validation error\" |= \"require-readonly-rootfs\""
+            }
+          ]
+        }
+      ],
+      "templating": {
+        "list": [
+          {
+            "name": "DS_LOKI",
+            "type": "datasource",
+            "query": "loki",
+            "current": {}
+          }
+        ]
+      }
+    }

@@ -13,6 +13,15 @@ spec:
     targetRevision: "3.9.1"
     helm:
       releaseName: kyverno
+      values: |
+        features:
+          logging:
+            verbosity: 3
+          # Drop the default filter that specifically omits
+          # PolicyApplied/PolicySkipped events, so nothing relevant is
+          # silently dropped at the source.
+          omitEvents:
+            eventTypes: []
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno-system
