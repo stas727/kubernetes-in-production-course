@@ -22,7 +22,7 @@ data:
           "datasource": { "type": "loki", "uid": "${DS_LOKI}" },
           "targets": [
             {
-              "expr": "sum(count_over_time({app_kubernetes_io_component=\"admission-controller\", app_kubernetes_io_part_of=\"kyverno\"} |= \"validation error\" |= \"require-readonly-rootfs\" [1m]))"
+              "expr": "sum(count_over_time({component=\"admission-controller\"} |= \"validation error\" |= \"require-readonly-rootfs\" [1m]))"
             }
           ],
           "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] }
@@ -35,7 +35,7 @@ data:
           "datasource": { "type": "loki", "uid": "${DS_LOKI}" },
           "targets": [
             {
-              "expr": "{app_kubernetes_io_component=\"admission-controller\", app_kubernetes_io_part_of=\"kyverno\"} |= \"validation error\" |= \"require-readonly-rootfs\""
+              "expr": "{component=\"admission-controller\"} |= \"validation error\" |= \"require-readonly-rootfs\""
             }
           ]
         }
