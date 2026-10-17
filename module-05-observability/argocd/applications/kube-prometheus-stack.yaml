@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: kip
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: "65.5.1"
+    helm:
+      releaseName: kube-prometheus-stack
+      values: |
+        grafana:
+          sidecar:
+            dashboards:
+              enabled: true
+              label: grafana_dashboard
+            datasources:
+              enabled: true
+              label: grafana_datasource
+            alerts:
+              enabled: true
+              label: grafana_alert
+        # kube-state-metrics and node-exporter are enabled by default in
+        # this chart — they're what dashboards/student-namespaces-load.json
+        # queries for per-namespace CPU/memory and per-node load.
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
