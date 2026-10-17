@@ -23,9 +23,9 @@ spec:
             replication_factor: 1
           storage:
             type: filesystem
+          useTestSchema: true
         singleBinary:
           replicas: 1
-        # Disable components only needed for distributed mode.
         backend:
           replicas: 0
         read:
