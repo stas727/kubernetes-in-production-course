@@ -34,11 +34,17 @@ data:
                   expr: >-
                     count_over_time({component="admission-controller"} |= "validation error" |= "require-readonly-rootfs" [1m])
                   queryType: range
+              - refId: B
+                datasourceUid: "__expr__"
+                model:
+                  type: reduce
+                  expression: A
+                  reducer: sum
               - refId: C
                 datasourceUid: "__expr__"
                 model:
                   type: threshold
-                  expression: A
+                  expression: B
                   conditions:
                     - evaluator:
                         type: gt
